@@ -3,14 +3,14 @@ import * as React from 'react'
 import "./controller.css";
 
 export default function Controller(props) {
-  const {robotNameList, robotName} = props
+  const {toolNameList, toolName} = props
   const {j1_rotate, j2_rotate, j3_rotate, j4_rotate, j5_rotate, j6_rotate} = props
   const {c_pos_x, c_pos_y, c_pos_z} = props
   const {c_deg_x, c_deg_y, c_deg_z} = props
   
 
-  const set_robotName = (e)=>{
-    props.set_robotName(e.target.value)
+  const set_toolName = (e)=>{
+    props.set_toolName(e.target.value)
   }
 
   const set_j1_rotate = (e)=>{
@@ -117,6 +117,11 @@ export default function Controller(props) {
         <div className="row mb-2">
           <div className="col-md-4"><label htmlFor="j6_rotate_number" className="form-label"><span className="form-control-plaintext">J6 Deg</span></label></div>
           <div className="col-md-8"><input type="number" className="form-control" id="j6_rotate_number" value={j6_rotate} onChange={set_j6_rotate} min={-180} max={180}/></div>
+        </div>
+        <div className="mb-2">
+          <select className="form-select" onChange={set_toolName} value={toolName}>
+            {toolNameList.map((name,idx)=><option key={idx} value={name}>{name}</option>)}
+          </select>
         </div>
       </div>
       <div className="camera-controller" >

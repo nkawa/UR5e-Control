@@ -18,6 +18,8 @@ export default function Home() {
   const [c_deg_x,set_c_deg_x] = React.useState(0)
   const [c_deg_y,set_c_deg_y] = React.useState(0)
   const [c_deg_z,set_c_deg_z] = React.useState(0)
+  const toolNameList = ["No tool","Gripper","E-Pick"]
+  const [toolName,set_toolName] = React.useState(toolNameList[0])
   let registered = false
 
   const robotChange = ()=>{
@@ -53,6 +55,7 @@ export default function Home() {
 
   const controllerProps = {
     robotName, robotNameList, set_robotName,
+    toolName, toolNameList, set_toolName,
     j1_rotate,set_j1_rotate,j2_rotate,set_j2_rotate,j3_rotate,set_j3_rotate,
     j4_rotate,set_j4_rotate,j5_rotate,set_j5_rotate,j6_rotate,set_j6_rotate,
     c_pos_x,set_c_pos_x,c_pos_y,set_c_pos_y,c_pos_z,set_c_pos_z,
@@ -60,7 +63,8 @@ export default function Home() {
   }
 
   const robotProps = {
-    robotNameList, robotName, j1_rotate, j2_rotate, j3_rotate, j4_rotate, j5_rotate, j6_rotate
+    robotNameList, robotName, j1_rotate, j2_rotate, j3_rotate, j4_rotate, j5_rotate, j6_rotate,
+    toolNameList, toolName,
   }
 
   if(rendered){
@@ -70,8 +74,8 @@ export default function Home() {
         <a-plane position="0 0 0" rotation="-90 0 0" width="10" height="10" color="#7BC8A4" shadow></a-plane>
         <Assets/>
         <Select_Robot {...robotProps}/>
-        <a-entity light="type: directional; color: #FFF; intensity: 0.8" position="1 1 1"></a-entity>
-        <a-entity light="type: directional; color: #FFF; intensity: 0.8" position="-1 1 1"></a-entity>
+        <a-entity light="type: directional; color: #EEE; intensity: 0.7" position="1 1 1"></a-entity>
+        <a-entity light="type: directional; color: #EEE; intensity: 0.7" position="-1 1 1"></a-entity>
         <a-entity id="rig" position={`${c_pos_x} ${c_pos_y} ${c_pos_z}`} rotation={`${c_deg_x} ${c_deg_y} ${c_deg_z}`}>
           <a-camera id="camera" cursor="rayOrigin: mouse;" position="0 0 0"></a-camera>
         </a-entity>
@@ -99,6 +103,8 @@ const Assets = ()=>{
       <a-asset-items id="j4" src="UR5e_j4.gltf" ></a-asset-items>
       <a-asset-items id="j5" src="UR5e_j5.gltf" ></a-asset-items>
       <a-asset-items id="j6" src="UR5e_j6.gltf" ></a-asset-items>
+      <a-asset-items id="RobotiqGripper" src="RobotiqGripper.gltf" ></a-asset-items>
+      <a-asset-items id="E-Pick" src="E-Pick.gltf" ></a-asset-items>
     </a-assets>
   )
 }
@@ -112,7 +118,9 @@ const UR5e = (props)=>{
           <a-entity gltf-model="#j3" position="0 0.426 0" rotation={`0 0 ${-j3_rotate}`}>
             <a-entity gltf-model="#j4" position="0 0.392 0" rotation={`0 0 ${j4_rotate}`}>
               <a-entity gltf-model="#j5" position="0 0.101 0.1325" rotation={`0 ${-j5_rotate} 0`}>
-                <a-entity gltf-model="#j6" position="0 0 0" rotation={`0 0 ${j6_rotate}`}></a-entity>
+                <a-entity gltf-model="#j6" position="0 0 0" rotation={`0 0 ${j6_rotate}`}>
+                  <UR5e_Tool {...props}/>
+                </a-entity>
               </a-entity>
             </a-entity>
           </a-entity>
@@ -120,6 +128,21 @@ const UR5e = (props)=>{
       </a-entity>
     </a-entity>:null}</>
   )
+}
+
+const UR5e_Tool = (props)=>{
+  const return_table = [
+    <></>,
+    <a-entity gltf-model="#RobotiqGripper" position="0 0 0.104" rotation={`0 0 0`}></a-entity>,
+    <a-entity gltf-model="#E-Pick" position="0 0 0.093" rotation={`0 0 0`}></a-entity>
+  ]
+  const {toolNameList, toolName} = props
+  const visibletable = toolNameList.map(()=>false)
+  const findindex = toolNameList.findIndex((e)=>e===toolName)
+  if(findindex >= 0){
+    return (return_table[findindex])
+  }
+  return null
 }
 
 const Select_Robot = (props)=>{
@@ -134,12 +157,3 @@ const Select_Robot = (props)=>{
     <UR5e visible={visibletable[0]} {...rotateProps}/>
   </>)
 }
-
-
-
-
-
-
-
-
-
