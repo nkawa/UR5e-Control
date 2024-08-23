@@ -6,12 +6,13 @@ export default function Home() {
   const [rendered,set_rendered] = React.useState(false)
   const robotNameList = ["UR5e"]
   const [robotName,set_robotName] = React.useState(robotNameList[0])
-  const [j1_rotate,set_j1_rotate] = React.useState(0)
+  const [j1_rotate,set_j1_rotate] = React.useState(90)
   const [j2_rotate,set_j2_rotate] = React.useState(0)
   const [j3_rotate,set_j3_rotate] = React.useState(0)
   const [j4_rotate,set_j4_rotate] = React.useState(0)
   const [j5_rotate,set_j5_rotate] = React.useState(0)
   const [j6_rotate,set_j6_rotate] = React.useState(0)
+  const [j7_rotate,set_j7_rotate] = React.useState(0)
   const [c_pos_x,set_c_pos_x] = React.useState(0)
   const [c_pos_y,set_c_pos_y] = React.useState(0.5)
   const [c_pos_z,set_c_pos_z] = React.useState(1.2)
@@ -57,13 +58,13 @@ export default function Home() {
     robotName, robotNameList, set_robotName,
     toolName, toolNameList, set_toolName,
     j1_rotate,set_j1_rotate,j2_rotate,set_j2_rotate,j3_rotate,set_j3_rotate,
-    j4_rotate,set_j4_rotate,j5_rotate,set_j5_rotate,j6_rotate,set_j6_rotate,
+    j4_rotate,set_j4_rotate,j5_rotate,set_j5_rotate,j6_rotate,set_j6_rotate,j7_rotate,set_j7_rotate,
     c_pos_x,set_c_pos_x,c_pos_y,set_c_pos_y,c_pos_z,set_c_pos_z,
     c_deg_x,set_c_deg_x,c_deg_y,set_c_deg_y,c_deg_z,set_c_deg_z
   }
 
   const robotProps = {
-    robotNameList, robotName, j1_rotate, j2_rotate, j3_rotate, j4_rotate, j5_rotate, j6_rotate,
+    robotNameList, robotName, j1_rotate, j2_rotate, j3_rotate, j4_rotate, j5_rotate, j6_rotate, j7_rotate,
     toolNameList, toolName,
   }
 
@@ -103,7 +104,9 @@ const Assets = ()=>{
       <a-asset-items id="j4" src="UR5e_j4.gltf" ></a-asset-items>
       <a-asset-items id="j5" src="UR5e_j5.gltf" ></a-asset-items>
       <a-asset-items id="j6" src="UR5e_j6.gltf" ></a-asset-items>
-      <a-asset-items id="RobotiqGripper" src="RobotiqGripper.gltf" ></a-asset-items>
+      <a-asset-items id="GripperBase" src="GripperBase.gltf" ></a-asset-items>
+      <a-asset-items id="GripperFinger1" src="GripperFinger1.gltf" ></a-asset-items>
+      <a-asset-items id="GripperFinger2" src="GripperFinger2.gltf" ></a-asset-items>
       <a-asset-items id="E-Pick" src="E-Pick.gltf" ></a-asset-items>
     </a-assets>
   )
@@ -131,13 +134,16 @@ const UR5e = (props)=>{
 }
 
 const UR5e_Tool = (props)=>{
+  const {j7_rotate} = props
   const return_table = [
     <></>,
-    <a-entity gltf-model="#RobotiqGripper" position="0 0 0.104" rotation={`0 0 0`}></a-entity>,
+    <a-entity gltf-model="#GripperBase" position="0 0 0.104" rotation={`0 0 0`}>
+    <a-entity gltf-model="#GripperFinger1" position="0 0 0" rotation={`0 ${j7_rotate} 0`}></a-entity>
+    <a-entity gltf-model="#GripperFinger2" position="0 0 0" rotation={`0 ${-j7_rotate} 0`}></a-entity>  
+    </a-entity>,
     <a-entity gltf-model="#E-Pick" position="0 0 0.093" rotation={`0 0 0`}></a-entity>
   ]
   const {toolNameList, toolName} = props
-  const visibletable = toolNameList.map(()=>false)
   const findindex = toolNameList.findIndex((e)=>e===toolName)
   if(findindex >= 0){
     return (return_table[findindex])

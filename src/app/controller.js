@@ -4,7 +4,7 @@ import "./controller.css";
 
 export default function Controller(props) {
   const {toolNameList, toolName} = props
-  const {j1_rotate, j2_rotate, j3_rotate, j4_rotate, j5_rotate, j6_rotate} = props
+  const {j1_rotate, j2_rotate, j3_rotate, j4_rotate, j5_rotate, j6_rotate, j7_rotate} = props
   const {c_pos_x, c_pos_y, c_pos_z} = props
   const {c_deg_x, c_deg_y, c_deg_z} = props
   
@@ -59,6 +59,14 @@ export default function Controller(props) {
       value = value * -1
     }
     props.set_j6_rotate(value)
+  }
+
+  const set_j7_rotate = (e)=>{
+    let value = e.target.value
+    if(Math.abs(value)===180){
+      value = value * -1
+    }
+    props.set_j7_rotate(value)
   }
 
   const set_c_pos_x = (e)=>{
@@ -117,6 +125,10 @@ export default function Controller(props) {
         <div className="row mb-2">
           <div className="col-md-4"><label htmlFor="j6_rotate_number" className="form-label"><span className="form-control-plaintext">J6 Deg</span></label></div>
           <div className="col-md-8"><input type="number" className="form-control" id="j6_rotate_number" value={j6_rotate} onChange={set_j6_rotate} min={-180} max={180}/></div>
+        </div>
+        <div className="row mb-2">
+          <div className="col-md-4"><label htmlFor="j7_rotate_number" className="form-label"><span className="form-control-plaintext">J6 Deg</span></label></div>
+          <div className="col-md-8"><input type="number" className="form-control" id="j7_rotate_number" value={j7_rotate} onChange={set_j7_rotate} min={-180} max={180}/></div>
         </div>
         <div className="mb-2">
           <select className="form-select" onChange={set_toolName} value={toolName}>
