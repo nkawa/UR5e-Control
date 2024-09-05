@@ -6,7 +6,7 @@ export default function Home() {
   const [rendered,set_rendered] = React.useState(false)
   const robotNameList = ["UR5e"]
   const [robotName,set_robotName] = React.useState(robotNameList[0])
-  const [j1_rotate,set_j1_rotate] = React.useState(90)
+  const [j1_rotate,set_j1_rotate] = React.useState(0)
   const [j2_rotate,set_j2_rotate] = React.useState(0)
   const [j3_rotate,set_j3_rotate] = React.useState(0)
   const [j4_rotate,set_j4_rotate] = React.useState(0)
@@ -14,8 +14,8 @@ export default function Home() {
   const [j6_rotate,set_j6_rotate] = React.useState(0)
   const [j7_rotate,set_j7_rotate] = React.useState(0)
   const [c_pos_x,set_c_pos_x] = React.useState(0)
-  const [c_pos_y,set_c_pos_y] = React.useState(0.5)
-  const [c_pos_z,set_c_pos_z] = React.useState(1.2)
+  const [c_pos_y,set_c_pos_y] = React.useState(0.6)
+  const [c_pos_z,set_c_pos_z] = React.useState(1.0)
   const [c_deg_x,set_c_deg_x] = React.useState(0)
   const [c_deg_y,set_c_deg_y] = React.useState(0)
   const [c_deg_z,set_c_deg_z] = React.useState(0)
@@ -117,11 +117,11 @@ const UR5e = (props)=>{
   return (<>{visible?
     <a-entity robot-click gltf-model="#base" position="0 0 0" rotation="0 0 0" visible={visible}>
       <a-entity gltf-model="#j1" position="0 0 0" rotation={`0 ${j1_rotate} 0`}>
-        <a-entity gltf-model="#j2" position="0 0.16 0" rotation={`0 0 ${j2_rotate}`}>
-          <a-entity gltf-model="#j3" position="0 0.426 0" rotation={`0 0 ${-j3_rotate}`}>
-            <a-entity gltf-model="#j4" position="0 0.392 0" rotation={`0 0 ${j4_rotate}`}>
-              <a-entity gltf-model="#j5" position="0 0.101 0.1325" rotation={`0 ${-j5_rotate} 0`}>
-                <a-entity gltf-model="#j6" position="0 0 0" rotation={`0 0 ${j6_rotate}`}>
+        <a-entity gltf-model="#j2" position="0 0.1626 0" rotation={`${j2_rotate} 0 0`}>
+          <a-entity gltf-model="#j3" position="0 0.4251\ 0" rotation={`${j3_rotate} 0 0`}>
+            <a-entity gltf-model="#j4" position="0 0.3922 0" rotation={`${j4_rotate} 0 0`}>
+              <a-entity gltf-model="#j5" position="0.1325 0.1008 0" rotation={`0 ${j5_rotate} 0`}>
+                <a-entity gltf-model="#j6" position="0 0 0" rotation={`${j6_rotate} 0 0`}>
                   <UR5e_Tool {...props}/>
                 </a-entity>
               </a-entity>
@@ -137,11 +137,11 @@ const UR5e_Tool = (props)=>{
   const {j7_rotate} = props
   const return_table = [
     <></>,
-    <a-entity gltf-model="#GripperBase" position="0 0 0.104" rotation={`0 0 0`}>
+    <a-entity gltf-model="#GripperBase" position="0.1037 0 0" rotation={`0 0 0`}>
     <a-entity gltf-model="#GripperFinger1" position="0 0 0" rotation={`0 ${j7_rotate} 0`}></a-entity>
     <a-entity gltf-model="#GripperFinger2" position="0 0 0" rotation={`0 ${-j7_rotate} 0`}></a-entity>  
     </a-entity>,
-    <a-entity gltf-model="#E-Pick" position="0 0 0.093" rotation={`0 0 0`}></a-entity>
+    <a-entity gltf-model="#E-Pick" position="0.09254 0 0" rotation={`0 0 0`}></a-entity>
   ]
   const {toolNameList, toolName} = props
   const findindex = toolNameList.findIndex((e)=>e===toolName)
